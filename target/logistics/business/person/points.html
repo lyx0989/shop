@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+	<title>积分明细</title>
+
+	<link href="/olalashop/business/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
+	<link href="/olalashop/business/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
+	<link href="/olalashop/business/css/personal.css" rel="stylesheet" type="text/css">
+	<link href="/olalashop/business/css/point.css" rel="stylesheet" type="text/css">
+	<script src="/olalashop/business/AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
+	<script src="/olalashop/business/AmazeUI-2.4.2/assets/js/amazeui.js"></script>
+</head>
+
+<body>
+<!--头 -->
+<header>
+	<#include "person/header.html">
+</header>
+<div class="nav-table"></div>
+<b class="line"></b>
+<div class="center">
+	<div class="col-main">
+		<div class="main-wrap">
+			<div class="points">
+				<!--标题 -->
+				<div class="am-cf am-padding">
+					<div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">我的积分</strong> / <small>My&nbsp;Point</small></div>
+				</div>
+				<hr/>
+				<div class="pointsTitle">
+					<div class="usable">可用积分<span>
+							<#assign x = 0 />
+							<#list point as p >
+									<#assign x = x + p.getChargePoint() />
+							</#list>
+							${x}
+						</span></div>
+					<div class="pointshop"><a href="#"><i><img src="../images/u5.png" /></i>积分商城</a></div>
+					<div class="signIn"><a href="javascript:void(0)" onclick="SignIn()"><i class="am-icon-calendar"></i><em>+5</em>每日签到</a></div>
+				</div>
+				<div class="pointlist am-tabs" data-am-tabs>
+					<ul class="am-avg-sm-3 am-tabs-nav am-nav am-nav-tabs">
+						<li class="am-active"><a href="#tab1">全部</a></li>
+						<li><a href="#tab2">获得</a></li>
+						<li><a href="#tab3">支出</a></li>
+					</ul>
+
+					<div class="am-tabs-bd">
+						<div class="am-tab-panel am-fade am-in am-active" id="tab1">
+							<table>
+								<b></b>
+								<thead>
+								<tr>
+									<th class="th1">积分详情</th>
+									<th class="th2">积分变动</th>
+									<th class="th3">日期</th>
+								</tr>
+								</thead>
+								<tbody>
+								<#list point as p>
+								<tr>
+									<td class="pointType">
+										<#if p.getSource() == true >
+											登陆
+										<#else>
+											订单
+										</#if></td>
+									<td class="pointNum">${p.getChargePoint()}</td>
+									<td class="pointTime">${p.getCreateTime()?string("yyyy年MM月dd日 HH:mm:ss")}</td>
+								</tr>
+								</#list>
+								</tbody>
+							</table>
+						</div>
+						<div class="am-tab-panel am-fade" id="tab2">
+							<table>
+								<b></b>
+								<thead>
+								<tr>
+									<th class="th1">积分详情</th>
+									<th class="th2">获取积分</th>
+									<th class="th3">日期</th>
+								</tr>
+								</thead>
+								<tbody>
+								<#list point as p>
+								<#if p.getChargePoint() gt 0 >
+								<tr>
+									<td class="pointType">
+									<#if p.getSource() == true >
+										登陆
+										<#else>
+										订单
+									</#if>
+									</td>
+									<td class="pointNum">${p.getChargePoint()}</td>
+									<td class="pointTime">${p.getCreateTime()?string("yyyy年MM月dd日 HH:mm:ss")}</td>
+								</tr>
+								</#if>
+								</#list>
+								</tbody>
+							</table>
+						</div>
+						<div class="am-tab-panel am-fade" id="tab3">
+							<table>
+								<b></b>
+								<thead>
+								<tr>
+									<th class="th1">积分详情</th>
+									<th class="th2">消耗积分</th>
+									<th class="th3">日期</th>
+								</tr>
+								</thead>
+								<tbody>
+								<#list point as p>
+									<#if p.getChargePoint() lt 0 >
+									<tr>
+										<td class="pointType">
+											<#if p.getSource() == true >
+												登陆
+											<#else>
+												订单
+											</#if></td>
+										<td class="pointNum">${p.getChargePoint()}</td>
+										<td class="pointTime">${p.getCreateTime()?string("yyyy年MM月dd日 HH:mm:ss")}</td>
+									</tr>
+									</#if>
+								</#list>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!--底部-->
+		<div class="footer"></div>
+	</div>
+	<aside class="menu"></aside>
+</div>
+</body>
+<script>
+	$(function () {
+		$(".nav-table").load("/olalashop/business/person/nav.html");
+		$("div.footer").load("/olalashop/business/home/footer.html");
+		$("aside").load("/olalashop/business/home/aside.html");
+	})
+
+	function SignIn() {
+		$.ajax({
+			type:"post",
+			url:"/olalashop/cntApi/addPoint.do",
+			dataType: "json",
+			data:{
+				/*"userPoint":5,*/
+			},
+			success:function (date) {
+				if (date =="10000" || date == "10001"){
+					alert("签到成功");
+					window.location.reload();
+				}else if (date == "10002"){
+					alert("签到成功，您已断签哦亲亲");
+				}else if (date=="10003") {
+					alert("今天已经签到过了");
+				}
+			}
+
+		});
+	}
+	
+	
+</script>
+</html>

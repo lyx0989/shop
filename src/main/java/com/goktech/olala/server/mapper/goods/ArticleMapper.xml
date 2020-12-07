@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goktech.olala.server.dao.goods.ArticleMapper">
+  <resultMap id="BaseResultMap" type="com.goktech.olala.server.pojo.goods.Article">
+    <id column="ARTICLE_ID" jdbcType="SMALLINT" property="articleId" />
+    <result column="ARTICLE_TITLE" jdbcType="VARCHAR" property="articleTitle" />
+    <result column="PREF_TITLE" jdbcType="VARCHAR" property="prefTitle" />
+    <result column="KEYWORDS" jdbcType="VARCHAR" property="keywords" />
+    <result column="AUTHOR" jdbcType="VARCHAR" property="author" />
+    <result column="ARTICLE_TYPE" jdbcType="INTEGER" property="articleType" />
+    <result column="ARTICLE_COLUMN" jdbcType="INTEGER" property="articleColumn" />
+    <result column="ARTICLE_SORT" jdbcType="INTEGER" property="articleSort" />
+    <result column="SOURCE" jdbcType="VARCHAR" property="source" />
+    <result column="LINK_URL" jdbcType="VARCHAR" property="linkUrl" />
+    <result column="ALLOW_COMMENTS" jdbcType="BIT" property="allowComments" />
+    <result column="COMMENT_BEGIN_TIME" jdbcType="TIMESTAMP" property="commentBeginTime" />
+    <result column="COMMENT_END_TIME" jdbcType="TIMESTAMP" property="commentEndTime" />
+    <result column="CLICK_COUNT" jdbcType="INTEGER" property="clickCount" />
+    <result column="REVIEW_STATUS" jdbcType="INTEGER" property="reviewStatus" />
+    <result column="IS_ENABLED" jdbcType="BIT" property="isEnabled" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy" />
+    <result column="ABSTRACTS" jdbcType="LONGVARCHAR" property="abstracts" />
+    <result column="CONTENT" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from g_article
+    where ARTICLE_ID = #{articleId,jdbcType=SMALLINT}
+  </delete>
+  <insert id="insert" parameterType="com.goktech.olala.server.pojo.goods.Article">
+    insert into g_article (ARTICLE_ID, ARTICLE_TITLE, PREF_TITLE, 
+      KEYWORDS, AUTHOR, ARTICLE_TYPE, 
+      ARTICLE_COLUMN, ARTICLE_SORT, SOURCE, 
+      LINK_URL, ALLOW_COMMENTS, COMMENT_BEGIN_TIME, 
+      COMMENT_END_TIME, CLICK_COUNT, REVIEW_STATUS, 
+      IS_ENABLED, CREATE_TIME, CREATE_BY, 
+      UPDATE_TIME, UPDATE_BY, ABSTRACTS, 
+      CONTENT)
+    values (#{articleId }, #{articleTitle,jdbcType=VARCHAR}, #{prefTitle,jdbcType=VARCHAR},
+      #{keywords,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{articleType,jdbcType=INTEGER}, 
+      #{articleColumn,jdbcType=INTEGER}, #{articleSort,jdbcType=INTEGER}, #{source,jdbcType=VARCHAR}, 
+      #{linkUrl,jdbcType=VARCHAR}, #{allowComments,jdbcType=BIT}, #{commentBeginTime,jdbcType=TIMESTAMP}, 
+      #{commentEndTime,jdbcType=TIMESTAMP}, #{clickCount,jdbcType=INTEGER}, #{reviewStatus,jdbcType=INTEGER}, 
+      #{isEnabled,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR},
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{abstracts,jdbcType=LONGVARCHAR}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.goktech.olala.server.pojo.goods.Article">
+    update g_article
+    set ARTICLE_TITLE = #{articleTitle,jdbcType=VARCHAR},
+      PREF_TITLE = #{prefTitle,jdbcType=VARCHAR},
+      KEYWORDS = #{keywords,jdbcType=VARCHAR},
+      AUTHOR = #{author,jdbcType=VARCHAR},
+      ARTICLE_TYPE = #{articleType,jdbcType=INTEGER},
+      ARTICLE_COLUMN = #{articleColumn,jdbcType=INTEGER},
+      ARTICLE_SORT = #{articleSort,jdbcType=INTEGER},
+      SOURCE = #{source,jdbcType=VARCHAR},
+      LINK_URL = #{linkUrl,jdbcType=VARCHAR},
+      ALLOW_COMMENTS = #{allowComments,jdbcType=BIT},
+      COMMENT_BEGIN_TIME = #{commentBeginTime,jdbcType=TIMESTAMP},
+      COMMENT_END_TIME = #{commentEndTime,jdbcType=TIMESTAMP},
+      CLICK_COUNT = #{clickCount,jdbcType=INTEGER},
+      REVIEW_STATUS = #{reviewStatus,jdbcType=INTEGER},
+      IS_ENABLED = #{isEnabled,jdbcType=BIT},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      ABSTRACTS = #{abstracts,jdbcType=LONGVARCHAR},
+      CONTENT = #{content,jdbcType=LONGVARCHAR}
+    where ARTICLE_ID = #{articleId,jdbcType=SMALLINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Short" resultMap="BaseResultMap">
+    select ARTICLE_ID, ARTICLE_TITLE, PREF_TITLE, KEYWORDS, AUTHOR, ARTICLE_TYPE, ARTICLE_COLUMN, 
+    ARTICLE_SORT, SOURCE, LINK_URL, ALLOW_COMMENTS, COMMENT_BEGIN_TIME, COMMENT_END_TIME, 
+    CLICK_COUNT, REVIEW_STATUS, IS_ENABLED, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, 
+    ABSTRACTS, CONTENT
+    from g_article
+    where ARTICLE_ID = #{articleId,jdbcType=SMALLINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select ARTICLE_ID, ARTICLE_TITLE, PREF_TITLE, KEYWORDS, AUTHOR, ARTICLE_TYPE, ARTICLE_COLUMN, 
+    ARTICLE_SORT, SOURCE, LINK_URL, ALLOW_COMMENTS, COMMENT_BEGIN_TIME, COMMENT_END_TIME, 
+    CLICK_COUNT, REVIEW_STATUS, IS_ENABLED, CREATE_TIME, CREATE_BY, UPDATE_TIME, UPDATE_BY, 
+    ABSTRACTS, CONTENT
+    from g_article
+  </select>
+</mapper>
